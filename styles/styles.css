@@ -1,0 +1,19 @@
+body {
+	margin: 0px;
+	overflow: hidden;
+	background-color: black;
+}
+
+.sphere {
+	fill: lightblue; 
+}
+
+.country {
+	fill: sandybrown;
+	stroke: black;
+	stroke-opacity: 0.1;
+}
+
+.country:hover {
+	fill: red;
+}
