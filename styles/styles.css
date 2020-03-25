@@ -1,28 +1,29 @@
 body {
 	margin: 0px;
 	overflow: hidden;
-	background-color: black;
+	background-color: grey;
 }
 
 .sphere {
-	fill: lightblue; 
+	fill: lightblue;
+	stroke: black;
+	stroke-width: 0.5;
+	z-index: -1;
 }
 
 .country {
 	fill: white;
 	stroke: black;
 	stroke-width: 0.3;
-	/* stroke-opacity: .5; */
+	stroke-opacity: 0.5;
 }
 
-.country:hover {
-	fill: red;
+.country-mouse-over {
+	fill: lightyellow;
 }
 
 .graticule {
-	/* fill:; */
 	fill: transparent;
-	stroke: grey;
-	stroke-width: .5;
-	/* z-index: 1; */
+	stroke: black;
+	stroke-width: 0.25;
 }
