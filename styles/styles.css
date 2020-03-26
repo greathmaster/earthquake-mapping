@@ -29,3 +29,9 @@ body {
 	stroke-opacity: 0.3;
 	stroke-width: 0.5;
 }
+
+.techtonic-lines {
+	stroke: red;
+	fill:transparent;
+	
+}

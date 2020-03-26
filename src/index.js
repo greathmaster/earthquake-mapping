@@ -21,19 +21,30 @@ svg.append("path")
 	.attr("d", pathGenerator({ type: "Sphere" }));
 
 const graticules = svg
+	.append("g")
 	.append("path")
 	.datum(d3.geoGraticule().step([10, 10]))
 	.attr("class", "graticule")
 	.attr("d", pathGenerator);
+
 drawEarth();
 
 function drawEarth() {
-	d3.json(
-		"https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"
-	).then(data => {
-		var countries = feature(data, data.objects.countries);
-
+	Promise.all([
+		d3.json(
+			"https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"
+		),
+		d3.json(
+			"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
+		),
+		d3.json(
+			"https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
+		),
+	]).then(([geoData, earthquakeData, tectonicData]) => {
+		var countries = feature(geoData, geoData.objects.countries);
+		console.log(tectonicData);
 		var country = svg
+			.append("g")
 			.selectAll("path.feature")
 			.data(countries.features)
 			.enter()
@@ -48,6 +59,33 @@ function drawEarth() {
 				c.attr("class", null);
 				c.attr("class", "country");
 			});
+
+		var earthquakeLocations = svg
+			.append("g")
+			.attr("class", "points")
+			.selectAll("path")
+			.data(earthquakeData.features)
+			.enter()
+			.append("path")
+			.attr("class", "cityPoint")
+			.attr("d", pathGenerator);
+
+		var tectonicPlatesLines = svg
+			.append("g")
+			.selectAll("path")
+			.data(tectonicData.features)
+			.enter()
+			.append("path")
+			.attr("class", "techtonic-lines")
+			.attr("d", pathGenerator);
+
+		// const graticules = svg
+		// 	.append("g")
+		// 	.datum(d3.geoGraticule().step([10, 10]))
+		// 	.append("path")
+		// 	.attr("class", "graticule")
+		// 	.attr("d", pathGenerator);
+
 		// svg.append("g");
 
 		rotation();
@@ -59,7 +97,8 @@ function drawEarth() {
 					config.verticalTilt,
 					config.horizontalTilt,
 				]);
-
+				tectonicPlatesLines.attr("d", pathGenerator);
+				earthquakeLocations.attr("d", pathGenerator);
 				country.attr("d", pathGenerator);
 				graticules.attr("d", pathGenerator);
 			});
