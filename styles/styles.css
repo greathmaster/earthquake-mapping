@@ -1,7 +1,7 @@
 body {
 	margin: 0px;
 	overflow: hidden;
-	background-color: grey;
+	background-color: black;
 }
 
 .sphere {
@@ -12,18 +12,20 @@ body {
 }
 
 .country {
-	fill: white;
+	fill: tan;
 	stroke: black;
-	stroke-width: 0.3;
-	stroke-opacity: 0.5;
+	stroke-width: .8;
+	stroke-opacity: 0.8;
 }
 
 .country-mouse-over {
-	fill: lightyellow;
+	fill: rgb(250, 201, 201);
+
 }
 
 .graticule {
 	fill: transparent;
-	stroke: black;
-	stroke-width: 0.25;
+	stroke:black;
+	stroke-opacity: 0.3;
+	stroke-width: 0.5;
 }
