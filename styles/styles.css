@@ -5,24 +5,27 @@ body {
 }
 
 .sphere {
-	fill: lightblue; 
+	fill: lightblue;
+	stroke: black;
+	stroke-width: 0.5;
+	z-index: -1;
 }
 
 .country {
-	fill: white;
+	fill: tan;
 	stroke: black;
-	stroke-width: 0.3;
-	/* stroke-opacity: .5; */
+	stroke-width: .8;
+	stroke-opacity: 0.8;
 }
 
-.country:hover {
-	fill: red;
+.country-mouse-over {
+	fill: rgb(250, 201, 201);
+
 }
 
 .graticule {
-	/* fill:; */
 	fill: transparent;
-	stroke: grey;
-	stroke-width: .5;
-	/* z-index: 1; */
+	stroke:black;
+	stroke-opacity: 0.3;
+	stroke-width: 0.5;
 }

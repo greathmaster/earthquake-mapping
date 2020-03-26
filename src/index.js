@@ -1,73 +1,68 @@
-import {
-	select,
-	json,
-	geoPath,
-	geoMercator,
-	geoOrthographic,
-	zoom,
-	event,
-	geoGraticule,
-	mouse,
-	queue
-} from "d3";
+import * as d3 from "d3";
 import { feature } from "topojson";
 import "../styles/styles.css";
 
-const svg = select("svg");
+const svg = d3.select("svg");
 const width = +svg.attr("width");
 const height = +svg.attr("height");
-const projection = geoOrthographic();
-const pathGenerator = geoPath().projection(projection);
+const projection = d3.geoOrthographic();
+const pathGenerator = d3.geoPath().projection(projection);
 
-const g = svg.append("g");
+//TODO: consider adding debouncing, one scroll make ~100 events
 
-// var graticule = geoGraticule()
-// .step([10, 10]);
+const config = {
+	speed: 0.005,
+	verticalTilt: -15,
+	horizontalTilt: 0,
+};
 
-g.append("path")
+svg.append("path")
 	.attr("class", "sphere")
 	.attr("d", pathGenerator({ type: "Sphere" }));
 
-//TODO: consider adding debouncing, one scroll make ~100 events
-svg.call(
-	zoom().on("zoom", () => {
-		g.attr("transform", event.transform);
-	})
-);
+const graticules = svg
+	.append("path")
+	.datum(d3.geoGraticule().step([10, 10]))
+	.attr("class", "graticule")
+	.attr("d", pathGenerator);
+drawEarth();
 
-json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then(
-	data => {
-		const countries = feature(data, data.objects.countries);
-		var graticule = geoGraticule().step([10, 10]);
-		// Add the graticule to the figure
-		g.append('path').datum(graticule)
-		.attr('class', 'graticule')
-		.attr('d', d => pathGenerator(d));
+function drawEarth() {
+	d3.json(
+		"https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"
+	).then(data => {
+		var countries = feature(data, data.objects.countries);
 
-		g.selectAll("path.feature")
+		var country = svg
+			.selectAll("path.feature")
 			.data(countries.features)
 			.enter()
 			.append("path")
 			.attr("class", "country")
 			.attr("d", d => pathGenerator(d))
 			.on("mouseover", function(d) {
-				// console.log(d)
-				select(this).style("fill", "lightgrey");
+				d3.select(this).attr("class", "country-mouse-over");
 			})
 			.on("mouseout", function(d) {
-				select(this).style("fill", "white");
-			})
-			// .append("graticule")
-			// .append("path")
-			// .datum(graticule)
-			// .attr("class", "graticule")
-			// .attr("d", d => pathGenerator(d));
+				let c = d3.select(this);
+				c.attr("class", null);
+				c.attr("class", "country");
+			});
+		// svg.append("g");
 
-		// .append("title")
-		// .text(d => {
-		// 	return d.properties.name;
-		// });
-	}
-);
+		rotation();
 
-// svg.style("background-color", "blue")
+		function rotation() {
+			d3.timer(function(elapsed) {
+				projection.rotate([
+					config.speed * elapsed - 120,
+					config.verticalTilt,
+					config.horizontalTilt,
+				]);
+
+				country.attr("d", pathGenerator);
+				graticules.attr("d", pathGenerator);
+			});
+		}
+	});
+}
