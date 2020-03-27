@@ -42,7 +42,6 @@ function drawEarth() {
 		),
 	]).then(([geoData, earthquakeData, tectonicData]) => {
 		var countries = feature(geoData, geoData.objects.countries);
-		console.log(tectonicData);
 		var country = svg
 			.append("g")
 			.selectAll("path.feature")
