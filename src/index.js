@@ -21,17 +21,17 @@ var config = {
 	accumulatedRotation: 0,
 };
 const canvas = d3
-	.select("canvas")
+	.select("#visible")
 	.attr("width", 900)
 	.attr("height", 600);
 
 const context = canvas.node().getContext("2d");
 
 var hiddenCanvas = d3
-	.select("canvas")
-	.attr("id", "canvas-hidden")
+	.select("#hidden")
 	.attr("width", 900)
-	.attr("height", 600);
+	.attr("height", 600)
+	.style("display", "hidden");
 
 var hiddenContext = hiddenCanvas.node().getContext("2d");
 
@@ -45,6 +45,7 @@ var hiddenPath = d3
 //give each country a unique color
 function drawHiddenCanvas(geo) {
 	var countries = geo.features;
+	// console.log(countries)
 	countries.forEach(function(el, i) {
 		hiddenContext.beginPath();
 		hiddenPath(el);
@@ -81,29 +82,28 @@ function drawEarth() {
 			"https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
 		),
 		// ]).then(([geoData, earthquakeData, tectonicData]) => {
-		]).then(([geoData, tectonicData]) => {
-			var map = feature(geoData, geoData.objects.countries);
+	]).then(([geoData, tectonicData]) => {
+		canvas.on("mousemove", highlightPicking);
+		var map = feature(geoData, geoData.objects.countries);
+		
+		timer = d3.timer(render);
+		
+		function render(elapsed) {
+			//todo use CSS to set {display: hidden} on this to hide it
+			currentTime = d3.now();
+			let diff = currentTime - prevTime;
+			prevTime = currentTime;
 			
-			timer = d3.timer(render);
-			
-			function render(elapsed) {
-				//todo use CSS to set {display: hidden} on this to hide it
-				drawHiddenCanvas(map);
-				currentTime = d3.now();
-				let diff = currentTime - prevTime;
-				prevTime = currentTime;
-				
-				// console.log([diff, elapsed])
-				if (diff < elapsed) {
-					
-				let rotation = projection.rotate()	
-				rotation[0] += diff / 50
-				rotation[1] = config.verticalTilt
-				rotation[2] = config.horizontalTilt
+			// console.log([diff, elapsed])
+			if (diff < elapsed) {
+				let rotation = projection.rotate();
+				rotation[0] += diff / 50;
+				rotation[1] = config.verticalTilt;
+				rotation[2] = config.horizontalTilt;
 				projection.rotate(rotation);
 				
-				
 				context.clearRect(0, 0, 900, 600);
+				drawHiddenCanvas(map);
 				
 				context.beginPath();
 				geoPath(sphere);
@@ -180,10 +180,9 @@ function drawEarth() {
 				config.inGlobe && pickedColor[3] === 255
 					? pickedColor[0]
 					: false; // checking for inGlobe (above) and antialiasing
-		
-					console.log(selected)
+			console.log(selected)
 		}
 
-		canvas.on("mousemove", highlightPicking);
+		// canvas.on("mousemove", highlightPicking);
 	});
 }
