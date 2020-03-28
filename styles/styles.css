@@ -35,3 +35,17 @@ body {
 	fill:transparent;
 	
 }
+#info-card {
+    position: absolute;
+    display: inline-block;
+    color: #555;
+    font-size: 11px;
+    text-align: left;
+    background: #fafafa;
+    box-shadow: 2px 2px 5px rgba(0, 0, 20, 0.25);
+    pointer-events: none;
+    line-height: 200%;
+    max-width: 250px;
+
+    opacity: 0;
+  }

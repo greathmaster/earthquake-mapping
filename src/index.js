@@ -82,7 +82,6 @@ function drawEarth() {
 		timer = d3.timer(render);
 
 		function render(elapsed) {
-
 			currentTime = d3.now();
 			let diff = currentTime - prevTime;
 			prevTime = currentTime;
@@ -741,7 +740,35 @@ function drawEarth() {
 
 			const selected =
 				inEarth && pickedColor[3] === 255 ? pickedColor[0] : false; // checking for inGlobe (above) and antialiasing
+
+			//const country = map.features[selected].properties.name;
+			const country = map.features[selected];
+			// console.log(country)
+			if (selected !== false) showTooltip(pos, country); // build tooltip
+			if (selected === false) hideTooltip();
 		}
 
+		function showTooltip(mouse, element) {
+			console.log("toolitp")
+			var countryProps = element.properties;
+		
+				d3.select("#info-header h1").html("Hi Card");
+				d3.select("#info-header div").html("Hi detils");
+
+				d3.select("#info-card")
+					.style("left", mouse[0] + 20 + "px")
+					.style("top", mouse[1] + 20 + "px")
+					.transition()
+					.duration(100)
+					.style("opacity", 0.98);
+			
+		}
+
+		function hideTooltip() {
+			console.log("hide tooltip")
+			d3.select('#info-card')
+			  .transition().duration(100)
+			  .style('opacity', 0);
+		  }
 	});
 }
