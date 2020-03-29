@@ -4,9 +4,20 @@
 		<title>Earthquake Mapping</title>
 	</head>
 	<body>
+		<div id="info-card">
+			<div id="info-header">
+				<h1>Stuff</h1>
+				<div id="info-body">
+					<div class="date"></div>
+					<div class="magnitude"></div>
+					<div class="location-string">Location: </div>
+					<div class="coordinates">Coordinates: </div>
+				</div>
+			</div>
+		</div>
 		<canvas id="visible"></canvas>
 
-		<canvas id="hidden" style="display:none"></canvas>
+		<canvas id="hidden"></canvas>
 
 		<script src="main.js"></script>
 	</body>

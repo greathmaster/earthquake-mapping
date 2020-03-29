@@ -14,24 +14,49 @@ body {
 .country {
 	fill: tan;
 	stroke: black;
-	stroke-width: .8;
+	stroke-width: 0.8;
 	stroke-opacity: 0.8;
 }
 
 .country-mouse-over {
 	fill: rgb(250, 201, 201);
-
 }
 
 .graticule {
 	fill: transparent;
-	stroke:black;
+	stroke: black;
 	stroke-opacity: 0.3;
 	stroke-width: 0.5;
 }
 
 .techtonic-lines {
 	stroke: red;
-	fill:transparent;
-	
+	fill: transparent;
+}
+#info-card {
+	position: absolute;
+	display: inline-block;
+	color: #555;
+	font-size: 11px;
+	text-align: left;
+	background: #fafafa;
+	box-shadow: 2px 2px 5px rgba(0, 0, 20, 0.25);
+	pointer-events: none;
+	line-height: 200%;
+	/* max-width: 250px; */
+	padding-left: 20px;
+	padding-right: 20px;
+	opacity: 0;
+}
+
+#info-card h1 {
+	/* margin: left 10px; */
+	font-size: 18px;
+	font-family: "Helvetica Neue", sans-serif;
+}
+
+#info-body {
+	font-size: 15px;
+	font-family: "courier new", monospace;
+	margin-bottom: 10px;
 }
