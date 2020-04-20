@@ -33,6 +33,11 @@ body {
 	stroke: red;
 	fill: transparent;
 }
+
+body {
+	background-color: white;
+}
+
 #info-card {
 	position: absolute;
 	display: inline-block;
@@ -60,3 +65,42 @@ body {
 	font-family: "courier new", monospace;
 	margin-bottom: 10px;
 }
+
+#hidden {
+	display: none !important;
+}
+
+
+.content {
+	display:flex;
+	justify-content:flex-start;
+}
+
+.inst-controls {
+	display: flex;
+	flex-direction:column;
+	align-items:center;
+	margin-top: 10vw;
+}
+
+.title {
+	font-size: 5vw;
+	font-family: "Helvetica Neue", sans-serif;
+}
+
+.inst-controls-wrapper {
+	width:100% !important;
+}
+
+.instructions {
+	font-size: 1.25vw;
+	margin-left: 2vw;
+	margin-right: 2vw;
+	font-family: Lato, sans-serif;
+	color: rgb(131, 131, 131);
+}
+
+* {
+	border: 1px solid red !important;
+}
+

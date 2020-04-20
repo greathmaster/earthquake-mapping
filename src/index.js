@@ -2,6 +2,13 @@ import * as d3 from "d3";
 import { feature } from "topojson";
 import "../styles/styles.css";
 
+let WIDTH = window.innerHeight;
+let HEIGHT = window.innerHeight;
+
+
+
+
+
 var config = {
 	speed: 1,
 	verticalTilt: -15,
@@ -11,58 +18,76 @@ var config = {
 	accumulatedRotation: 0,
 };
 
-const projection = d3.geoOrthographic().clipAngle(90);
-
-const canvas = d3
-	.select("#visible")
-	.attr("width", 900)
-	.attr("height", 600);
+const projection = d3.geoOrthographic().translate([WIDTH/2, HEIGHT/2]).clipAngle(90)
+const canvas = d3.select("#visible").attr("width", WIDTH).attr("height", HEIGHT);
 
 const context = canvas.node().getContext("2d");
 
-var hiddenCanvas = d3
-	.select("#hidden")
-	.attr("width", 900)
-	.attr("height", 600)
-	.style("display", "hidden");
+var hiddenCanvas = d3.select("#hidden").attr("width", 10*WIDTH)
+.attr("height", HEIGHT);
 
 var hiddenContext = hiddenCanvas.node().getContext("2d");
 
-var hiddenProjection = d3.geoEquirectangular();
+var hiddenProjection = d3.geoEquirectangular()
 
-var hiddenPath = d3
-	.geoPath()
-	.projection(hiddenProjection)
-	.context(hiddenContext);
+var hiddenPath = d3.geoPath(hiddenProjection,hiddenContext)
+	// .geoPath()
+	// .projection(hiddenProjection)
+	// .context(hiddenContext);
 
+//Taken from: https://observablehq.com/@camargo/canvas-picking-with-a-hidden-canvas
+function* rgbColorGenerator() {
+	let nextColor = 1;
+	const nextColorStep = 500;
+
+	while (nextColor < 16777216) {
+		const rgb = [];
+
+		rgb.push(nextColor & 0xff); // R.
+		rgb.push((nextColor & 0xff00) >> 8); // G.
+		rgb.push((nextColor & 0xff0000) >> 16); // B.
+
+		nextColor += nextColorStep;
+		yield `rgb(${rgb.join(",")})`;
+	}
+}
+
+let colorToPoint = {};
 //give each country a unique color
 function drawHiddenCanvas(geo, earthquakeData) {
-	// var countries = geo.features;
-	// countries.forEach(function(el, i) {
-	// 	hiddenContext.beginPath();
-	// 	hiddenPath(el);
-	// 	hiddenContext.fillStyle = `rgb(${i}, 0, 0)`;
-	// 	hiddenContext.fill();
-	// });
-
-	earthquakeData.features.forEach((el, i) => {
-		//console.log(el)
+	var countries = geo.features;
+	countries.forEach(function(el, i) {
 		hiddenContext.beginPath();
 		hiddenPath(el);
-		hiddenContext.fillStyle = `rgb(0, 0, ${i})`;
-		hiddenContext.lineWidth = 10;
+		hiddenContext.fillStyle = "blue";
+		hiddenContext.fill();
+		hiddenContext.closePath();
+
+
+	});
+	const hiddenCanvasColor = rgbColorGenerator();
+
+	earthquakeData.features.forEach((el, i) => {
+		
+		hiddenContext.beginPath();
+		let color = hiddenCanvasColor.next().value
+		hiddenContext.fillStyle = color//`rgb(0, 0, ${i})`;
+		hiddenPath(el);
+		colorToPoint[color] = el
+		
+		//note we are drawing at position (0,0) because hiddenpath(el) is performing the transformation
+		// hiddenContext.arc(0, 0, 10, 0, 2 * Math.PI);
+		
 		hiddenContext.fill();
 		// hiddenContext.stroke();
 	});
+	hiddenContext.closePath();
 }
 var timer;
 var currentTime;
 var prevTime = d3.now();
 
-const geoPath = d3
-	.geoPath()
-	.projection(projection)
-	.context(context);
+const geoPath = d3.geoPath().projection(projection).context(context);
 
 //outline for entire earth
 const sphere = { type: "Sphere" };
@@ -78,14 +103,15 @@ function drawEarth() {
 			"https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"
 		),
 		d3.json(
-			"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
+			// "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
+			"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson"
 		),
 		d3.json(
 			"https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
 		),
-	]).then(([geoData, earthquakeData, tectonicData]) => {
-		//]).then(([geoData, tectonicData]) => {
-
+		]).then(([geoData, earthquakeData, tectonicData]) => {
+	// ]).then(([geoData, tectonicData]) => {
+		
 		var map = feature(geoData, geoData.objects.countries);
 
 		timer = d3.timer(render);
@@ -95,7 +121,7 @@ function drawEarth() {
 			let diff = currentTime - prevTime;
 			prevTime = currentTime;
 
-			hiddenContext.clearRect(0, 0, 900, 600);
+			hiddenContext.clearRect(0, 0, WIDTH, HEIGHT);
 			drawHiddenCanvas(map, earthquakeData);
 
 			canvas.on("mousemove", highlightPicking);
@@ -107,14 +133,14 @@ function drawEarth() {
 				rotation[2] = config.horizontalTilt;
 				projection.rotate(rotation);
 
-				context.clearRect(0, 0, 900, 600);
+				context.clearRect(0, 0, WIDTH, HEIGHT);
 
 				context.beginPath();
 				geoPath(sphere);
 				context.fillStyle = "#D9EAEF";
 				context.fill();
 
-				map.features.forEach(d => {
+				map.features.forEach((d) => {
 					context.beginPath();
 					geoPath(d);
 					context.fillStyle = "lightgreen";
@@ -131,7 +157,7 @@ function drawEarth() {
 				context.strokeStyle = "grey";
 				context.stroke();
 
-				tectonicData.features.forEach(d => {
+				tectonicData.features.forEach((d) => {
 					context.beginPath();
 					geoPath(d);
 					context.fillStyle = "red";
@@ -141,17 +167,20 @@ function drawEarth() {
 					context.stroke();
 				});
 
-				earthquakeData.features.forEach(d => {
+				earthquakeData.features.forEach((d) => {
 					context.beginPath();
 					geoPath(d);
 					context.fillStyle = "orange";
 					context.strokeStyle = "orange";
-					context.lineWidth = 5;
+					// context.arc(0, 0, 4, 0, 2 * Math.PI);
+
+					// context.lineWidth = 5;
 					context.fill();
-					context.stroke();
+					// context.stroke();
 				});
 			}
 			function highlightPicking() {
+
 				const pos = d3.mouse(this);
 				const loglatArray = projection.invert(pos);
 				const hiddenPos = hiddenProjection(loglatArray);
@@ -162,6 +191,8 @@ function drawEarth() {
 					1,
 					1
 				).data; // get the pixel color at mouse hover
+
+				// console.log(pickedColor)
 
 				const inEarth = inGlobe(pos);
 
@@ -178,13 +209,14 @@ function drawEarth() {
 				const selected =
 					inEarth && pickedColor[3] === 255 ? pickedColor[0] : false; // checking for inGlobe (above) and antialiasing
 
-				const selectedEarthquake =
-					inEarth && pickedColor[3] === 255 ? pickedColor[2] : false; // checking for inGlobe (above) and antialiasing
-
+				//const selectedEarthquake =
+				//	inEarth && pickedColor[3] === 255 ? pickedColor[2] : false; // checking for inGlobe (above) and antialiasing
+				const selectedEarthquake = inEarth && colorToPoint[`rgb(${pickedColor[0]},${pickedColor[1]},${pickedColor[2]})`]
 				//const country = map.features[selected].properties.name;
-				const eq = earthquakeData.features[selectedEarthquake];
-				if (selectedEarthquake !== false) showTooltip(pos, eq); // build tooltip
-				if (selectedEarthquake === false) hideTooltip();
+				// console.log(selectedEarthquake)
+				// const eq = earthquakeData.features[selectedEarthquake];
+				if (!!selectedEarthquake) showTooltip(pos, selectedEarthquake); // build tooltip
+				if (!!!selectedEarthquake) hideTooltip();
 			}
 		}
 
@@ -198,6 +230,8 @@ function drawEarth() {
 		}
 
 		function showTooltip(mouse, element) {
+			if(element === undefined) return "";
+
 			var data = element.properties;
 			d3.select("#info-header h1").html("Additional Information");
 			d3.select(".date").html(
