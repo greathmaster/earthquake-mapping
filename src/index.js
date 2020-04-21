@@ -1,7 +1,9 @@
 import * as d3 from "d3";
 import { feature } from "topojson";
 import "../styles/styles.css";
-import DoubleSlider from "double-slider";
+import noUiSlider from 'nouislider';
+import 'nouislider/distribute/nouislider.css';
+import wNumb from "wnumb"
 
 let WIDTH = window.innerHeight;
 let HEIGHT = window.innerHeight;
@@ -55,33 +57,7 @@ function* rgbColorGenerator() {
 }
 
 let colorToPoint = {};
-//give each country a unique color
-// function drawHiddenCanvas(geo, earthquakeData) {
-// 	var countries = geo.features;
-// 	countries.forEach(function (el, i) {
-// 		hiddenContext.beginPath();
-// 		hiddenPath(el);
-// 		hiddenContext.fillStyle = "blue";
-// 		hiddenContext.fill();
-// 		hiddenContext.closePath();
-// 	});
-// 	const hiddenCanvasColor = rgbColorGenerator();
 
-// 	earthquakeData.features.forEach((el, i) => {
-// 		hiddenContext.beginPath();
-// 		let color = hiddenCanvasColor.next().value;
-// 		hiddenContext.fillStyle = color;
-// 		hiddenPath(el);
-// 		colorToPoint[color] = el;
-
-// 		//note we are drawing at position (0,0) because hiddenpath(el) is performing the transformation
-// 		// hiddenContext.arc(0, 0, 10, 0, 2 * Math.PI);
-
-// 		hiddenContext.fill();
-// 		// hiddenContext.stroke();
-// 	});
-// 	hiddenContext.closePath();
-// }
 var timer;
 var currentTime;
 var prevTime = d3.now();
@@ -96,6 +72,42 @@ const graticules = d3.geoGraticule()();
 
 drawEarth();
 
+var slider = document.getElementById('slider');
+noUiSlider.create(slider, {
+    start: [4.5, 10.0],
+	tooltips: [wNumb({decimals: 1}), wNumb({decimals: 1})],
+	connect: true,
+    range: {
+        'min': 4.5,
+        'max': 10.0
+	},
+
+    pips: {
+        mode: 'steps',
+        density: 1/(.55),
+        filter: filterPips,
+        format: wNumb({
+            decimals: 1,
+        })
+    }
+});
+
+function filterPips(value, type) {
+	console.log(type);
+	console.log(value)
+	if(value*10%5 === 0) {
+		return 2
+	}
+
+	// if(value*10%10 === 1) {
+	// 	return 1
+	// }
+
+	return 0;
+
+	// if( value )
+}
+
 function drawEarth() {
 	Promise.all([
 		d3.json(
@@ -103,7 +115,9 @@ function drawEarth() {
 		),
 		d3.json(
 			// "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
-			"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson"
+			 "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson"
+			//"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_month.geojson"
+			
 		),
 		d3.json(
 			"https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
@@ -115,26 +129,9 @@ function drawEarth() {
 
 		timer = d3.timer(render);
 
-		const mySlider = new DoubleSlider(
-			document.getElementById("double-slider")
-		);
-
-		mySlider.addEventListener("slider:change", () => {
-			let { min, max } = mySlider.value;
-
-			let mx = document.getElementById("mag-max")
-			let mn = document.getElementById("mag-min")
-			mx.innerHTML = max;
-			mn.innerHTML = min;
-
-			// const { min, max } = mySlider.value;
-			//   console.log(`Min is: ${min}, max is: ${max}`);
-		});
-
 		
 		function drawHiddenCanvas(geo, earthquakeData) {
 			var countries = geo.features;
-			let { min, max } = mySlider.value;
 			countries.forEach(function (el, i) {
 				
 					hiddenContext.beginPath();
@@ -147,10 +144,7 @@ function drawEarth() {
 			const hiddenCanvasColor = rgbColorGenerator();
 
 			earthquakeData.features.forEach((el, i) => {
-				if (
-					el.properties.mag >= min * 0.1 &&
-					el.properties.mag <= max * 0.1
-				) {
+		
 				hiddenContext.beginPath();
 				let color = hiddenCanvasColor.next().value;
 				hiddenContext.fillStyle = color;
@@ -162,7 +156,7 @@ function drawEarth() {
 
 				hiddenContext.fill();
 				// hiddenContext.stroke();
-				}
+				
 			});
 			hiddenContext.closePath();
 		}
@@ -217,13 +211,8 @@ function drawEarth() {
 					// context.fill();
 					context.stroke();
 				});
-				let { min, max } = mySlider.value;
 				earthquakeData.features.forEach((d) => {
-					if (
-						d.properties.mag >= min * 0.1 &&
-						d.properties.mag <= max * 0.1
-					) {
-						// console.log(d)
+				
 						context.beginPath();
 						geoPath(d);
 						context.fillStyle = "orange";
@@ -233,7 +222,7 @@ function drawEarth() {
 						// context.lineWidth = 5;
 						context.fill();
 						// context.stroke();
-					}
+					
 				});
 			}
 			function highlightPicking() {

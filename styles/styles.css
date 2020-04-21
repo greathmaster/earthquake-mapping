@@ -111,30 +111,12 @@ body {
 	color: rgb(131, 131, 131);
 }
 
-/* * {
-	border: 1px solid red !important;
-} */
-.ex {
-	padding: 2rem;
-	border: 1px solid grey;
-  }
-  .separator {
-	border: 1px solid grey;
-	margin: 1rem 0;
-  }
-  p {
-	display: block;
-	width: 100%;
-	text-align: center;
-	font-size: .8rem;
-	text-transform: uppercase;
-	color: gray;
-	text-decoration: underline;
-	padding: 1rem 0;
-  }
-
 .slider-container {
 	display:flex;
 	justify-content:space-evenly;
+	width: 300px;
+}
+
+#slider {
 	width: 300px;
 }
