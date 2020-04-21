@@ -22,6 +22,7 @@
 		"@babel/preset-env": "^7.9.0",
 		"babel-loader": "^8.1.0",
 		"d3": "^5.15.0",
+		"double-slider": "^2.0.0",
 		"topojson": "^3.0.2",
 		"world-atlas": "^2.0.2"
 	}

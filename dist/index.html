@@ -6,16 +6,42 @@
 	<body>
 		<div id="info-card">
 			<div id="info-header">
-				<h1>Stuff</h1>
+				<h1></h1>
 				<div id="info-body">
 					<div class="date"></div>
 					<div class="magnitude"></div>
-					<div class="location-string">Location: </div>
-					<div class="coordinates">Coordinates: </div>
+					<div class="location-string">Location:</div>
+					<div class="coordinates">Coordinates:</div>
 				</div>
 			</div>
 		</div>
-		<canvas id="visible"></canvas>
+
+		<div class="content">
+			<canvas id="visible"></canvas>
+			<div class="inst-controls-wrapper">
+				<div class="inst-controls">
+					<div class="title">Earthquake Mapping</div>
+					<div class="instructions">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+						Proin convallis venenatis blandit. Ut elementum turpis
+						orci, quis scelerisque lorem viverra nec.
+					</div>
+					<div>
+						<div class="slider-container">
+							<span>Number1</span>
+							<span
+								id="double-slider"
+								class="my-slider"
+								data-min="10"
+								data-max="50"
+								data-range="100"
+							></span>
+							<span>Number 2</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<canvas id="hidden"></canvas>
 
