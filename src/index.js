@@ -119,6 +119,18 @@ function drawEarth() {
 			document.getElementById("double-slider")
 		);
 
+		mySlider.addEventListener("slider:change", () => {
+			let { min, max } = mySlider.value;
+
+			let mx = document.getElementById("mag-max")
+			let mn = document.getElementById("mag-min")
+			mx.innerHTML = max;
+			mn.innerHTML = min;
+
+			// const { min, max } = mySlider.value;
+			//   console.log(`Min is: ${min}, max is: ${max}`);
+		});
+
 		
 		function drawHiddenCanvas(geo, earthquakeData) {
 			var countries = geo.features;
@@ -154,11 +166,6 @@ function drawEarth() {
 			});
 			hiddenContext.closePath();
 		}
-
-		// mySlider.addEventListener("slider:change", () => {
-		// 	// const { min, max } = mySlider.value;
-		// 	//   console.log(`Min is: ${min}, max is: ${max}`);
-		// });
 
 		function render(elapsed) {
 			currentTime = d3.now();
