@@ -120,3 +120,16 @@ body {
 #slider {
 	width: 300px;
 }
+
+.noUi-value.noUi-value-horizontal.noUi-value-large {
+	font-size: 13.5px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif ;
+}
+
+.noUi-tooltip {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif ;
+}
+
+.noUi-marker-horizontal.noUi-marker-large {
+	height: 10px !important;
+}

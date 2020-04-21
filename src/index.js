@@ -93,19 +93,17 @@ noUiSlider.create(slider, {
 });
 
 function filterPips(value, type) {
-	console.log(type);
-	console.log(value)
+	
+	if(value*10%10 === 0) {
+		return 1;
+	}
+	
 	if(value*10%5 === 0) {
 		return 2
 	}
 
-	// if(value*10%10 === 1) {
-	// 	return 1
-	// }
-
 	return 0;
 
-	// if( value )
 }
 
 function drawEarth() {
