@@ -1,9 +1,9 @@
 import * as d3 from "d3";
 import { feature } from "topojson";
 import "../styles/styles.css";
-import noUiSlider from 'nouislider';
-import 'nouislider/distribute/nouislider.css';
-import wNumb from "wnumb"
+import noUiSlider from "nouislider";
+import "nouislider/distribute/nouislider.css";
+import wNumb from "wnumb";
 
 let WIDTH = window.innerHeight;
 let HEIGHT = window.innerHeight;
@@ -62,7 +62,10 @@ var timer;
 var currentTime;
 var prevTime = d3.now();
 
-const geoPath = d3.geoPath().projection(projection).context(context);
+const geoPath = d3
+	.geoPath()
+	.projection(projection)
+	.context(context);
 
 //outline for entire earth
 const sphere = { type: "Sphere" };
@@ -72,38 +75,36 @@ const graticules = d3.geoGraticule()();
 
 drawEarth();
 
-var slider = document.getElementById('slider');
+var slider = document.getElementById("slider");
 noUiSlider.create(slider, {
-    start: [4.5, 10.0],
-	tooltips: [wNumb({decimals: 1}), wNumb({decimals: 1})],
+	start: [4.5, 10.0],
+	tooltips: [wNumb({ decimals: 1 }), wNumb({ decimals: 1 })],
 	connect: true,
-    range: {
-        'min': 4.5,
-        'max': 10.0
+	range: {
+		min: 4.5,
+		max: 10.0,
 	},
 
-    pips: {
-        mode: 'steps',
-        density: 1/(.55),
-        filter: filterPips,
-        format: wNumb({
-            decimals: 1,
-        })
-    }
+	pips: {
+		mode: "steps",
+		density: 1 / 0.55,
+		filter: filterPips,
+		format: wNumb({
+			decimals: 1,
+		}),
+	},
 });
 
 function filterPips(value, type) {
-	
-	if(value*10%10 === 0) {
+	if ((value * 10) % 10 === 0) {
 		return 1;
 	}
-	
-	if(value*10%5 === 0) {
-		return 2
+
+	if ((value * 10) % 5 === 0) {
+		return 2;
 	}
 
 	return 0;
-
 }
 
 function drawEarth() {
@@ -113,9 +114,8 @@ function drawEarth() {
 		),
 		d3.json(
 			// "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
-			 "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson"
+			"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson"
 			//"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_month.geojson"
-			
 		),
 		d3.json(
 			"https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
@@ -127,34 +127,39 @@ function drawEarth() {
 
 		timer = d3.timer(render);
 
-		
 		function drawHiddenCanvas(geo, earthquakeData) {
-			var countries = geo.features;
-			countries.forEach(function (el, i) {
-				
-					hiddenContext.beginPath();
-					hiddenPath(el);
-					hiddenContext.fillStyle = "blue";
-					hiddenContext.fill();
-					hiddenContext.closePath();
-				
-			});
+			// console.log(slider.noUiSlider.get());
+			let mag = slider.noUiSlider.get();
+
+			// var countries = geo.features;
+			// countries.forEach(function (el, i) {
+
+			// 		hiddenContext.beginPath();
+			// 		hiddenPath(el);
+			// 		hiddenContext.fillStyle = "blue";
+			// 		hiddenContext.fill();
+			// 		hiddenContext.closePath();
+
+			// });
 			const hiddenCanvasColor = rgbColorGenerator();
 
 			earthquakeData.features.forEach((el, i) => {
-		
-				hiddenContext.beginPath();
-				let color = hiddenCanvasColor.next().value;
-				hiddenContext.fillStyle = color;
-				hiddenPath(el);
-				colorToPoint[color] = el;
+				if (
+					mag[0] <= el.properties.mag &&
+					mag[1] >= el.properties.mag
+				) {
+					hiddenContext.beginPath();
+					let color = hiddenCanvasColor.next().value;
+					hiddenContext.fillStyle = color;
+					hiddenPath(el);
+					colorToPoint[color] = el;
 
-				//note we are drawing at position (0,0) because hiddenpath(el) is performing the transformation
-				// hiddenContext.arc(0, 0, 10, 0, 2 * Math.PI);
+					//note we are drawing at position (0,0) because hiddenpath(el) is performing the transformation
+					// hiddenContext.arc(0, 0, 10, 0, 2 * Math.PI);
 
-				hiddenContext.fill();
-				// hiddenContext.stroke();
-				
+					hiddenContext.fill();
+					// hiddenContext.stroke();
+				}
 			});
 			hiddenContext.closePath();
 		}
@@ -209,19 +214,23 @@ function drawEarth() {
 					// context.fill();
 					context.stroke();
 				});
-				earthquakeData.features.forEach((d) => {
-				
-						context.beginPath();
-						geoPath(d);
-						context.fillStyle = "orange";
-						context.strokeStyle = "orange";
-						// context.arc(0, 0, 4, 0, 2 * Math.PI);
+				let mag = slider.noUiSlider.get();
 
-						// context.lineWidth = 5;
-						context.fill();
-						// context.stroke();
-					
-				});
+				earthquakeData.features.forEach((d) => {
+					if (
+						mag[0] <= d.properties.mag &&
+						mag[1] >= d.properties.mag
+					) {
+					context.beginPath();
+					geoPath(d);
+					context.fillStyle = "orange";
+					context.strokeStyle = "orange";
+					// context.arc(0, 0, 4, 0, 2 * Math.PI);
+
+					// context.lineWidth = 5;
+					context.fill();
+					// context.stroke();
+				}});
 			}
 			function highlightPicking() {
 				const pos = d3.mouse(this);
