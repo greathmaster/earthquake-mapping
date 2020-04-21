@@ -36,6 +36,11 @@ body {
 
 body {
 	background-color: white;
+	margin: 0 20px;
+}
+
+.my-slider {
+	width: 75%;
 }
 
 #info-card {
@@ -52,6 +57,7 @@ body {
 	padding-left: 20px;
 	padding-right: 20px;
 	opacity: 0;
+	z-index: 2;
 }
 
 #info-card h1 {
@@ -83,8 +89,13 @@ body {
 	margin-top: 10vw;
 }
 
+.controls {
+	display:flex;
+	width:100%;
+}
+
 .title {
-	font-size: 5vw;
+	font-size: 4.5vw;
 	font-family: "Helvetica Neue", sans-serif;
 }
 
@@ -100,7 +111,30 @@ body {
 	color: rgb(131, 131, 131);
 }
 
-* {
+/* * {
 	border: 1px solid red !important;
-}
+} */
+.ex {
+	padding: 2rem;
+	border: 1px solid grey;
+  }
+  .separator {
+	border: 1px solid grey;
+	margin: 1rem 0;
+  }
+  p {
+	display: block;
+	width: 100%;
+	text-align: center;
+	font-size: .8rem;
+	text-transform: uppercase;
+	color: gray;
+	text-decoration: underline;
+	padding: 1rem 0;
+  }
 
+.slider-container {
+	display:flex;
+	justify-content:space-evenly;
+	width: 300px;
+}
