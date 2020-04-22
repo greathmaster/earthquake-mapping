@@ -90,7 +90,7 @@ body {
 	flex-direction:column;
 	justify-content:center;
 	align-items:flex-start;
-	margin-top: 3vw;
+	margin-top: 2vw;
 }
 
 .controls {
@@ -116,10 +116,14 @@ body {
 	font-family: Lato, sans-serif;
 	color: rgb(131, 131, 131);
 	margin-bottom: 2vw;
-	margin-top: 1vw;
+	/* margin-top: 1vw; */
 	font-style: italic;
 	line-height: 1.4;
 
+}
+
+a {
+	color: rgb(87, 171, 199);
 }
 
 .slider-magnitude-label {
@@ -169,6 +173,7 @@ body {
 	display:flex;
 	justify-content: flex-end;
 	width: 100%;
+	margin-top:1vw;
 }
 .byline-link{
 	font-size: .8em;
@@ -186,24 +191,14 @@ body {
 
 .career-icons{
 	font-size: 3vw;
-	margin-right:30px;
-	position: fixed;
+	margin-left:15px;
 	right: 0;
-	margin-bottom:65px;
 	display:flex;
-	/* flex-direction: column; */
 	justify-content:center;
 	align-items: center;
-	/* top: 0; */
-	bottom: 0;
-	/* background-color:red; */
-
 	border: 1px solid darkgrey;
-	/* background-color:rgb(240, 235, 229); */
 	border-radius: 10px;
 	padding: 20px;
-
-	/* left: 10; */
 }
 
 .icon {
@@ -214,6 +209,17 @@ body {
 .icon:hover {
 	transform:scale(1.1);
 	cursor: pointer;
+}
+
+.legend-footer-container {
+	margin-top: 0.75vw;
+	font-size: 1vw;
+	display: flex;
+}
+
+.legend-footer-content {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-style: italic;
 }
 
 .legend {
@@ -237,6 +243,10 @@ body {
 	flex-direction: column;
 	/* justify-content: center; */
 	/* align-items: center; */
+}
+
+.legend-wrapper {
+	display:flex;
 }
 
 .dot {
