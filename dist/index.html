@@ -22,23 +22,34 @@
 				<div class="inst-controls">
 					<div class="title">Earthquake Mapping</div>
 					<div class="instructions">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Proin convallis venenatis blandit. Ut elementum turpis
-						orci, quis scelerisque lorem viverra nec.
+						<p>
+							The globe to the left shows recorded earthquakes
+							greater than magnitude 4.5 on the Richter scale in
+							the last 30 days as orange dots. The red lines are
+							major techtonic plate boundaries.
+						</p>
+
+						<p>
+							Hover over a marked location on the globe to see
+							additional information on a specific earthquake.
+						</p>
+
+						<p>
+							Use the slider below to filter the earthquakes by
+							magnitude.
+						</p>
 					</div>
-					<div>
+					<div class="slider-container-wrapper">
+						<div class="slider-magnitude-label">
+							Showing magnitudes between
+							<span id="min-mag-label">4.5</span> and
+							<span id="max-mag-label">10.0</span>
+						</div>
 						<div class="slider-container">
-							<span>Number1</span>
-							<span
-								id="double-slider"
-								class="my-slider"
-								data-min="10"
-								data-max="50"
-								data-range="100"
-							></span>
-							<span>Number 2</span>
+							<div id="slider"></div>
 						</div>
 					</div>
+					<div class="legend"></div>
 				</div>
 			</div>
 		</div>

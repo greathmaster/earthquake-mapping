@@ -23,7 +23,9 @@
 		"babel-loader": "^8.1.0",
 		"d3": "^5.15.0",
 		"double-slider": "^2.0.0",
+		"nouislider": "^14.2.0",
 		"topojson": "^3.0.2",
+		"wnumb": "^1.2.0",
 		"world-atlas": "^2.0.2"
 	}
 }
