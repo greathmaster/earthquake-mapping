@@ -85,8 +85,9 @@ body {
 .inst-controls {
 	display: flex;
 	flex-direction:column;
-	align-items:center;
-	margin-top: 10vw;
+	justify-content:center;
+	align-items:flex-start;
+	margin-top: 5vw;
 }
 
 .controls {
@@ -101,29 +102,67 @@ body {
 
 .inst-controls-wrapper {
 	width:100% !important;
+	margin-left: 20px;
+
 }
 
 .instructions {
 	font-size: 1.25vw;
-	margin-left: 2vw;
-	margin-right: 2vw;
+	/* margin-left: 2vw; */
+	/* margin-right: 2vw; */
 	font-family: Lato, sans-serif;
 	color: rgb(131, 131, 131);
+	margin-bottom: 3vw;
+	margin-top: 3vw;
+	font-style: italic;
+}
+
+.slider-magnitude-label {
+	margin-bottom: 2vw;
+	font-size: 1.0em;
+	font-family: "Helvetica Neue", sans-serif;
+	/* margin-left: -1.2vw; */
 }
 
 .slider-container {
-	display:flex;
-	justify-content:space-evenly;
-	width: 300px;
+	/* display:flex;  */
+	/* justify-content:space-between; */
+	/* width: 300px; */
 }
 
 #slider {
-	width: 300px;
+	/* width: 300px; */
+}
+
+.legend {
+	background-color: red;
+	width: 70%;
+	height: 7vw;
+}
+
+.slider-container-wrapper {
+	width: 70%;
+	margin-bottom: 4vw;
+}
+
+#min-mag-label {
+	font-weight: 600;
+}
+
+#max-mag-label {
+	font-weight: 600;
 }
 
 .noUi-value.noUi-value-horizontal.noUi-value-large {
 	font-size: 13.5px;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif ;
+	font-weight: 600;
+}
+
+.noUi-value.noUi-value-horizontal.noUi-value-sub {
+	margin-top:3px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif ;
+	font-weight: 600;
 }
 
 .noUi-tooltip {
@@ -132,4 +171,10 @@ body {
 
 .noUi-marker-horizontal.noUi-marker-large {
 	height: 10px !important;
+}
+
+.noUi-horizontal .noUi-handle {
+	width: 20px !important;
+    height: 20px !important;
+	top: -2px !important;
 }

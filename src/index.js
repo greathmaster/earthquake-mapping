@@ -78,7 +78,7 @@ drawEarth();
 var slider = document.getElementById("slider");
 noUiSlider.create(slider, {
 	start: [4.5, 10.0],
-	tooltips: [wNumb({ decimals: 1 }), wNumb({ decimals: 1 })],
+	// tooltips: [wNumb({ decimals: 1 }), wNumb({ decimals: 1 })],
 	connect: true,
 	range: {
 		min: 4.5,
@@ -215,22 +215,36 @@ function drawEarth() {
 					context.stroke();
 				});
 				let mag = slider.noUiSlider.get();
+				
+				let minLabel = mag[0];
+				let maxLabel = mag[1];
 
+				let format = wNumb({ decimals: 1 })
+
+				if (mag != undefined) {
+					document.getElementById(
+						"min-mag-label"
+					).innerHTML = format.to(parseFloat(minLabel))
+					document.getElementById(
+						"max-mag-label"
+					).innerHTML = format.to(parseFloat(maxLabel))
+				}
 				earthquakeData.features.forEach((d) => {
 					if (
 						mag[0] <= d.properties.mag &&
 						mag[1] >= d.properties.mag
 					) {
-					context.beginPath();
-					geoPath(d);
-					context.fillStyle = "orange";
-					context.strokeStyle = "orange";
-					// context.arc(0, 0, 4, 0, 2 * Math.PI);
+						context.beginPath();
+						geoPath(d);
+						context.fillStyle = "orange";
+						context.strokeStyle = "orange";
+						// context.arc(0, 0, 4, 0, 2 * Math.PI);
 
-					// context.lineWidth = 5;
-					context.fill();
-					// context.stroke();
-				}});
+						// context.lineWidth = 5;
+						context.fill();
+						// context.stroke();
+					}
+				});
 			}
 			function highlightPicking() {
 				const pos = d3.mouse(this);
