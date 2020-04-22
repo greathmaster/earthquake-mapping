@@ -1,5 +1,6 @@
 body {
 	margin: 0px;
+	padding: 0px;
 	overflow: hidden;
 	background-color: black;
 }
@@ -37,6 +38,8 @@ body {
 body {
 	background-color: white;
 	margin: 0 20px;
+	padding: 0px;
+
 }
 
 .my-slider {
@@ -87,7 +90,7 @@ body {
 	flex-direction:column;
 	justify-content:center;
 	align-items:flex-start;
-	margin-top: 5vw;
+	margin-top: 3vw;
 }
 
 .controls {
@@ -109,19 +112,47 @@ body {
 .instructions {
 	font-size: 1.25vw;
 	/* margin-left: 2vw; */
-	/* margin-right: 2vw; */
+	margin-right: 1vw;
 	font-family: Lato, sans-serif;
 	color: rgb(131, 131, 131);
-	margin-bottom: 3vw;
-	margin-top: 3vw;
+	margin-bottom: 2vw;
+	margin-top: 1vw;
 	font-style: italic;
+	line-height: 1.4;
+
 }
 
 .slider-magnitude-label {
-	margin-bottom: 2vw;
-	font-size: 1.0em;
+	margin-bottom: 1vw;
+	font-size: 0.9em;
 	font-family: "Helvetica Neue", sans-serif;
 	/* margin-left: -1.2vw; */
+}
+
+.legend-item-label {
+	font-family: "Helvetica Neue", sans-serif;
+	color: rgba(87, 87, 87, 0.623);
+	font-size: 1.2vw;
+	margin-left: 1vw;
+	margin-bottom: .15vw;
+	font-weight: 600;
+}
+
+.line {
+	display:flex;
+	flex-direction: row;
+	align-items:center;
+	margin-bottom: .125vw;
+	
+}
+
+.legend-label {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin-top: 0.75vw;
+	margin-bottom: 0.75vw;
+	font-size: 1.4vw;
+	font-weight: 600;
+
 }
 
 .slider-container {
@@ -134,10 +165,97 @@ body {
 	/* width: 300px; */
 }
 
+.byline-container {
+	display:flex;
+	justify-content: flex-end;
+	width: 100%;
+}
+.byline-link{
+	font-size: .8em;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-style: italic;
+	color:grey;
+	margin-right: 1vw;;
+
+}
+
+.byline-link a{
+	color: rgb(87, 171, 199);
+}
+
+
+.career-icons{
+	font-size: 3vw;
+	margin-right:30px;
+	position: fixed;
+	right: 0;
+	margin-bottom:65px;
+	display:flex;
+	/* flex-direction: column; */
+	justify-content:center;
+	align-items: center;
+	/* top: 0; */
+	bottom: 0;
+	/* background-color:red; */
+
+	border: 1px solid darkgrey;
+	/* background-color:rgb(240, 235, 229); */
+	border-radius: 10px;
+	padding: 20px;
+
+	/* left: 10; */
+}
+
+.icon {
+	margin-left: 9px;
+	margin-right: 9px;
+}
+
+.icon:hover {
+	transform:scale(1.1);
+	cursor: pointer;
+}
+
 .legend {
-	background-color: red;
-	width: 70%;
+	/* background-color: red; */
+	width: 50%;
 	height: 7vw;
+	border-radius: 5px;
+	border: 1px solid black;
+	padding-left: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	display:flex;
+	flex-direction: column;
+	justify-content: space-around;
+	
+}
+
+.legend-container {
+	width: 100%;
+	display:flex;
+	flex-direction: column;
+	/* justify-content: center; */
+	/* align-items: center; */
+}
+
+.dot {
+	height: 15px;
+	width: 15px;
+	border-radius: 50%;
+	display: inline-block;
+}
+
+.level-1 {
+	background-color: rgb(153, 153, 31);
+}
+
+.level-2 {
+	background-color: orange
+}
+
+.level-3 {
+	background-color: red
 }
 
 .slider-container-wrapper {
