@@ -36,7 +36,7 @@ body {
 }
 
 body {
-	background-color: white;
+	background-color: rgb(235, 232, 232);
 	margin: 0 20px;
 	padding: 0px;
 
@@ -257,7 +257,7 @@ a {
 }
 
 .level-1 {
-	background-color: rgb(153, 153, 31);
+	background-color: rgba(243, 229, 37, 0.897);
 }
 
 .level-2 {

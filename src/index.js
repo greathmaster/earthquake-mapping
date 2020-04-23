@@ -215,34 +215,36 @@ function drawEarth() {
 					context.stroke();
 				});
 				let mag = slider.noUiSlider.get();
-				
+
 				let minLabel = mag[0];
 				let maxLabel = mag[1];
 
-				let format = wNumb({ decimals: 1 })
+				let format = wNumb({ decimals: 1 });
 
 				if (mag != undefined) {
 					document.getElementById(
 						"min-mag-label"
-					).innerHTML = format.to(parseFloat(minLabel))
+					).innerHTML = format.to(parseFloat(minLabel));
 					document.getElementById(
 						"max-mag-label"
-					).innerHTML = format.to(parseFloat(maxLabel))
+					).innerHTML = format.to(parseFloat(maxLabel));
 				}
 				earthquakeData.features.forEach((d) => {
 					if (
 						mag[0] <= d.properties.mag &&
 						mag[1] >= d.properties.mag
 					) {
+						let color = "rgba(243, 229, 37, 0.897)";
+						if (parseFloat(d.properties.mag) >= 5.0 && parseFloat(d.properties.mag) < 6.5) {
+							color = "orange";
+						}
+						if (parseFloat(d.properties.mag) >= 6.5) {
+							color = "red";
+						}
 						context.beginPath();
 						geoPath(d);
-						context.fillStyle = "orange";
-						context.strokeStyle = "orange";
-						// context.arc(0, 0, 4, 0, 2 * Math.PI);
-
-						// context.lineWidth = 5;
+						context.fillStyle = color;
 						context.fill();
-						// context.stroke();
 					}
 				});
 			}
