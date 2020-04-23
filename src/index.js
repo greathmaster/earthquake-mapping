@@ -94,6 +94,24 @@ noUiSlider.create(slider, {
 		}),
 	},
 });
+document.addEventListener("DOMContentLoaded", function() {
+	document.getElementById("legend-line-1").addEventListener("click", () => {
+		slider.noUiSlider.set(["4.5", "4.99"]);
+	});
+	document.getElementById("legend-line-2").addEventListener("click", () => {
+		slider.noUiSlider.set(["5.0", "6.49"]);
+	});
+	document.getElementById("legend-line-3").addEventListener("click", () => {
+		slider.noUiSlider.set(["6.5", "10.0"]);
+	});
+
+	document.getElementById("reset-slider-1").addEventListener("click", () => {
+		slider.noUiSlider.set(["4.5", "10.0"]);
+	})
+	document.getElementById("reset-slider-2").addEventListener("click", () => {
+		slider.noUiSlider.set(["4.5", "10.0"])
+	})
+});
 
 function filterPips(value, type) {
 	if ((value * 10) % 10 === 0) {
@@ -128,7 +146,6 @@ function drawEarth() {
 		timer = d3.timer(render);
 
 		function drawHiddenCanvas(geo, earthquakeData) {
-			// console.log(slider.noUiSlider.get());
 			let mag = slider.noUiSlider.get();
 
 			// var countries = geo.features;
@@ -153,12 +170,7 @@ function drawEarth() {
 					hiddenContext.fillStyle = color;
 					hiddenPath(el);
 					colorToPoint[color] = el;
-
-					//note we are drawing at position (0,0) because hiddenpath(el) is performing the transformation
-					// hiddenContext.arc(0, 0, 10, 0, 2 * Math.PI);
-
 					hiddenContext.fill();
-					// hiddenContext.stroke();
 				}
 			});
 			hiddenContext.closePath();
@@ -234,8 +246,11 @@ function drawEarth() {
 						mag[0] <= d.properties.mag &&
 						mag[1] >= d.properties.mag
 					) {
-						let color = "rgba(243, 229, 37, 0.897)";
-						if (parseFloat(d.properties.mag) >= 5.0 && parseFloat(d.properties.mag) < 6.5) {
+						let color = "rgba(243, 229, 37, 0.897)"; //yellow
+						if (
+							parseFloat(d.properties.mag) >= 5.0 &&
+							parseFloat(d.properties.mag) < 6.5
+						) {
 							color = "orange";
 						}
 						if (parseFloat(d.properties.mag) >= 6.5) {

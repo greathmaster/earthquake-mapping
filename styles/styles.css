@@ -6,7 +6,7 @@ body {
 }
 
 .sphere {
-	fill: lightblue;
+	/* fill: lightblue; */
 	stroke: black;
 	stroke-width: 0.5;
 	z-index: -1;
@@ -31,7 +31,7 @@ body {
 }
 
 .techtonic-lines {
-	stroke: red;
+	stroke: rgb(0, 174, 255);
 	fill: transparent;
 }
 
@@ -147,7 +147,11 @@ a {
 	flex-direction: row;
 	align-items:center;
 	margin-bottom: .125vw;
-	
+}
+
+.line:hover {
+	cursor:pointer;
+	transform: scale(1.05);
 }
 
 .legend-label {
@@ -159,15 +163,6 @@ a {
 
 }
 
-.slider-container {
-	/* display:flex;  */
-	/* justify-content:space-between; */
-	/* width: 300px; */
-}
-
-#slider {
-	/* width: 300px; */
-}
 
 .byline-container {
 	display:flex;
@@ -206,7 +201,7 @@ a {
 	margin-right: 9px;
 }
 
-.icon:hover {
+.career-icons > a:hover {
 	transform:scale(1.1);
 	cursor: pointer;
 }
@@ -223,14 +218,12 @@ a {
 }
 
 .legend {
-	/* background-color: red; */
 	width: 50%;
 	height: 7vw;
 	border-radius: 5px;
 	border: 1px solid black;
 	padding-left: 20px;
 	padding-top: 10px;
-	padding-bottom: 10px;
 	display:flex;
 	flex-direction: column;
 	justify-content: space-around;
@@ -268,8 +261,34 @@ a {
 	background-color: red
 }
 
+#reset-slider-1 {
+
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 600;
+	font-size: 1vw;
+	align-self: flex-end;
+	margin-left:.5vw;
+	font-style: italic;
+	color: rgb(87, 113, 199);
+	display: inline-block;
+}
+
+#reset-slider-1:hover {
+	transform: scale(1.05);
+}
+
+#reset-slider-2 {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 600;
+	font-size: 1vw;
+	align-self: flex-end;
+	margin-right:1.25vw;
+	font-style: italic;
+	color: rgb(87, 113, 199);
+}
+
 .slider-container-wrapper {
-	width: 70%;
+	width: 80%;
 	margin-bottom: 4vw;
 }
 
