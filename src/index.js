@@ -136,7 +136,7 @@ function drawEarth() {
 			//"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_month.geojson"
 		),
 		d3.json(
-			"https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
+			"https://raw.githubusercontent.com/greathmaster/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
 		),
 	]).then(([geoData, earthquakeData, tectonicData]) => {
 		// ]).then(([geoData, tectonicData]) => {
