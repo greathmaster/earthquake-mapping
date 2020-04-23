@@ -73,7 +73,6 @@ const sphere = { type: "Sphere" };
 //longitude and latitude lines
 const graticules = d3.geoGraticule()();
 
-drawEarth();
 
 var slider = document.getElementById("slider");
 noUiSlider.create(slider, {
@@ -84,7 +83,7 @@ noUiSlider.create(slider, {
 		min: 4.5,
 		max: 10.0,
 	},
-
+	
 	pips: {
 		mode: "steps",
 		density: 1 / 0.55,
@@ -94,12 +93,31 @@ noUiSlider.create(slider, {
 		}),
 	},
 });
+document.addEventListener("DOMContentLoaded", function() {
+	document.getElementById("legend-line-1").addEventListener("click", () => {
+		slider.noUiSlider.set([4.5, 5.0]);
+	});
+	document.getElementById("legend-line-2").addEventListener("click", () => {
+		slider.noUiSlider.set([5.01, 6.50]);
+	});
+	document.getElementById("legend-line-3").addEventListener("click", () => {
+		slider.noUiSlider.set([6.51, 10.0]);
+	});
+	
+	document.getElementById("reset-slider-1").addEventListener("click", () => {
+		slider.noUiSlider.set([4.5, 10.0]);
+	})
+	document.getElementById("reset-slider-2").addEventListener("click", () => {
+		slider.noUiSlider.set([4.5, 10.0])
+	})
+});
 
+drawEarth();
 function filterPips(value, type) {
 	if ((value * 10) % 10 === 0) {
 		return 1;
 	}
-
+	
 	if ((value * 10) % 5 === 0) {
 		return 2;
 	}
@@ -128,7 +146,6 @@ function drawEarth() {
 		timer = d3.timer(render);
 
 		function drawHiddenCanvas(geo, earthquakeData) {
-			// console.log(slider.noUiSlider.get());
 			let mag = slider.noUiSlider.get();
 
 			// var countries = geo.features;
@@ -142,23 +159,21 @@ function drawEarth() {
 
 			// });
 			const hiddenCanvasColor = rgbColorGenerator();
-
 			earthquakeData.features.forEach((el, i) => {
+
 				if (
-					mag[0] <= el.properties.mag &&
-					mag[1] >= el.properties.mag
+					parseFloat(mag[0]) <= parseFloat(el.properties.mag) &&
+					parseFloat(mag[1]) >= parseFloat(el.properties.mag)
 				) {
+
+						
+
 					hiddenContext.beginPath();
 					let color = hiddenCanvasColor.next().value;
 					hiddenContext.fillStyle = color;
 					hiddenPath(el);
 					colorToPoint[color] = el;
-
-					//note we are drawing at position (0,0) because hiddenpath(el) is performing the transformation
-					// hiddenContext.arc(0, 0, 10, 0, 2 * Math.PI);
-
 					hiddenContext.fill();
-					// hiddenContext.stroke();
 				}
 			});
 			hiddenContext.closePath();
@@ -169,7 +184,7 @@ function drawEarth() {
 			let diff = currentTime - prevTime;
 			prevTime = currentTime;
 
-			hiddenContext.clearRect(0, 0, WIDTH, HEIGHT);
+			hiddenContext.clearRect(0, 0, 10*WIDTH, HEIGHT);
 			drawHiddenCanvas(map, earthquakeData);
 
 			canvas.on("mousemove", highlightPicking);
@@ -231,14 +246,17 @@ function drawEarth() {
 				}
 				earthquakeData.features.forEach((d) => {
 					if (
-						mag[0] <= d.properties.mag &&
-						mag[1] >= d.properties.mag
+						parseFloat(mag[0]) <= parseFloat(d.properties.mag) &&
+						parseFloat(mag[1]) >= parseFloat(d.properties.mag)
 					) {
-						let color = "rgba(243, 229, 37, 0.897)";
-						if (parseFloat(d.properties.mag) >= 5.0 && parseFloat(d.properties.mag) < 6.5) {
+						let color = "rgba(243, 229, 37, 0.897)"; //yellow
+						if (
+							parseFloat(d.properties.mag) > 5.0 &&
+							parseFloat(d.properties.mag) <= 6.5
+						) {
 							color = "orange";
 						}
-						if (parseFloat(d.properties.mag) >= 6.5) {
+						if (parseFloat(d.properties.mag) > 6.5) {
 							color = "red";
 						}
 						context.beginPath();
