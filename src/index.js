@@ -309,7 +309,17 @@ function drawEarth() {
 			);
 		}
 
+		function infoCardOffscreen(pos) {
+		
+			if((pos[1] + document.getElementById('info-card').clientHeight) > window.innerHeight) {
+				return true
+			}
+
+			return false;
+		}
+
 		function showTooltip(mouse, element) {
+
 			if (element === undefined) return "";
 
 			var data = element.properties;
@@ -323,9 +333,14 @@ function drawEarth() {
 				`Coordinates: [${element.geometry.coordinates[0]}, ${element.geometry.coordinates[1]}]`
 			);
 
+			let offset = 20;
+			if(infoCardOffscreen(mouse)) {
+				offset = -document.getElementById('info-card').clientHeight;
+			}
+
 			d3.select("#info-card")
 				.style("left", mouse[0] + 20 + "px")
-				.style("top", mouse[1] + 20 + "px")
+				.style("top", mouse[1] + offset + "px")
 				.transition()
 				.duration(50)
 				.style("opacity", 0.98);
