@@ -21,7 +21,7 @@
 		"@babel/core": "^7.9.0",
 		"@babel/preset-env": "^7.9.0",
 		"babel-loader": "^8.1.0",
-		"d3": "^5.15.0",
+		"d3": "^7.6.1",
 		"double-slider": "^2.0.0",
 		"nouislider": "^14.2.0",
 		"topojson": "^3.0.2",
